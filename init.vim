@@ -16,7 +16,7 @@ colorscheme molokai
 " Search
 set ignorecase
 set smartcase
-set wildignore+=node_modules/**,
+set wildignore+=*/node_modules/**,/node_modules/**
 autocmd QuickfixCmdPost make,grep,grepadd,vimgrep copen
 
 " Filer
@@ -24,8 +24,10 @@ filetype plugin on
 let g:netrw_winsize = 35
 let g:netrw_browse_split = 3
 let g:netrw_banner=0
+let g:netrw_localmovecmd="mv"
 
 " Insert
+set expandtab
 set tabstop=2
 set shiftwidth=2
 set smartindent
@@ -41,6 +43,22 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
+" Auto commands
+autocmd BufWritePost :call CocAction('eslint.executeAutofix')
+augroup HTMLANDXML
+  autocmd!
+  autocmd Filetype html inoremap <buffer> </ </<C-x><C-o>
+  autocmd Filetype vue inoremap <buffer> </ </<C-x><C-o>
+augroup END
+
+
+" Short cuts
+command! Format :call CocAction('eslint.executeAutofix')
+
+" Coc
+autocmd FileType scss setl iskeyword+=@-@
+
+" VimPlug
 call plug#begin('~/.vim/plugged')
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'cohama/lexima.vim'

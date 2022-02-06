@@ -1,0 +1,4 @@
+{
+	"typescript.suggest.autoImports": true,
+	"eslint.autoFixOnSave": true
+}
