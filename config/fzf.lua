@@ -18,6 +18,11 @@ vim.api.nvim_set_keymap('n', 'fw', '<cmd>Rg<CR>', opts)
 vim.api.nvim_set_keymap('n', 'fb', '<cmd>Buffers<CR>', opts)
 vim.api.nvim_set_keymap('n', 'fl', '<cmd>Lines<CR>', opts)
 vim.api.nvim_set_keymap('n', 'fr', 'vawy:Rg <C-R>"<CR>', opts)
-
+vim.cmd([[
+  command! -bang -nargs=* Rg
+    \ call fzf#vim#grep(
+    \   "rg -g '!design/' -g '!dist/' -g '!pnpm-lock.yaml' -g '!.git' -g '!node_modules' -g '!coverage' -g '!__generated__' --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1,
+    \   fzf#vim#with_preview({'options': '--exact --delimiter : --nth 4..'}), <bang>0)
+]])
 
 
