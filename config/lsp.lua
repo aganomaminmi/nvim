@@ -23,6 +23,17 @@ local on_attach = function(client, bufnr)
   buf_set_keymap("n", "]d", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", opts)
   buf_set_keymap("n", "<space>q", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", opts)
   buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+
+  -- autocmd BufWritePre * :!{bash -c "while ![ -e $1 ]; do echo $1; sleep 0.1s; done"} %:p
+  if client.resolved_capabilities.document_formatting then
+    vim.cmd([[
+    augroup LspFormatting
+        autocmd! * <buffer>
+        autocmd BufWritePre * sleep 200m
+        autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
+    augroup END
+    ]])
+  end
 end
 
 -- local lsp_installer = require("nvim-lsp-installer")
@@ -95,6 +106,16 @@ local server_settings = {
     lintTask = {
       enable = true,
     },
+  },
+  sumneko_lua = {
+    Lua = {
+      diagnostics = {
+        globals = {
+          'vim'
+        }
+      }
+
+    }
   }
 }
 
@@ -109,7 +130,9 @@ for _, name in pairs(servers) do
 
       -- set server-specific settings
       --
-      if server_settings[server.name] then opts.settings = server_settings[server.name] end
+      if server_settings[server.name] then
+        opts.settings = server_settings[server.name]
+      end
 
       -- neovim's LSP client does not currently support dynamic capabilities registration, so we need to set
       -- the resolved capabilities of the eslint server ourselves!
@@ -119,6 +142,7 @@ for _, name in pairs(servers) do
       -- Disable formatting for typescript, so that eslint can take over.
       --
       if server.name == 'tsserver' then opts.on_attach = disable_formatting end
+      if server.name == 'sumneko_lua' then opts.on_attach = disable_formatting end
 
       server:setup(opts)
     end)

@@ -1,4 +1,3 @@
-
 " Word encording
 set encoding=utf-8
 set fileencoding=utf-8
@@ -11,7 +10,7 @@ set number
 set incsearch
 set background=dark
 set cursorline
-colorscheme molokai
+colorscheme codedark
 set laststatus=2
 
 " Search
@@ -42,6 +41,7 @@ nnoremap <C-n> gt
 nnoremap t1 :tabn 1<CR>
 nnoremap <C-[><C-[> :nohl<CR>
 nnoremap v* *:vimgrep /<C-r>// **/*.{ts,tsx,vue}<CR>
+nnoremap <C-w>o :Fern . -reveal=% -drawer -toggle -width=40<CR>
 
 " Keymap(coc)
 " nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -59,7 +59,7 @@ augroup HTML
 augroup END
 
 " Short cuts
-command! Format :call CocAction('eslint.executeAutofix')
+" command! Format :call CocAction('eslint.executeAutofix')
 
 " Coc
 autocmd FileType scss setl iskeyword+=@-@
@@ -86,7 +86,13 @@ Plug 'junegunn/fzf.vim'
 Plug 'itchyny/lightline.vim'
 Plug 'tpope/vim-fugitive' 
 
-Plug 'jose-elias-alvarez/null-ls.nvim'
+Plug 'lambdalisue/fern.vim'
+Plug 'lambdalisue/nerdfont.vim'
+Plug 'lambdalisue/fern-renderer-nerdfont.vim'
+Plug 'lambdalisue/glyph-palette.vim'
+Plug 'lambdalisue/fern-git-status.vim'
+
+Plug 'airblade/vim-gitgutter'
 
 call plug#end()
 
