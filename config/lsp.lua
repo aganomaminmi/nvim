@@ -16,7 +16,8 @@ local on_attach = function(client, bufnr)
   buf_set_keymap("n", "<space>wl", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", opts)
   buf_set_keymap("n", "<space>D", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
   buf_set_keymap("n", "<space>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-  buf_set_keymap("n", "ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+  -- buf_set_keymap("n", "ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+  buf_set_keymap("n", "ca", "<cmd>CodeActionMenu<CR>", opts)
   buf_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
   buf_set_keymap("n", "<space>e", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>", opts)
   buf_set_keymap("n", "[d", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", opts)
@@ -25,43 +26,19 @@ local on_attach = function(client, bufnr)
   buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 
   -- autocmd BufWritePre * :!{bash -c "while ![ -e $1 ]; do echo $1; sleep 0.1s; done"} %:p
-  if client.resolved_capabilities.document_formatting then
-    vim.cmd([[
-    augroup LspFormatting
-        autocmd! * <buffer>
-        autocmd BufWritePre * sleep 200m
-        autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
-    augroup END
-    ]])
-  end
+  -- if client.resolved_capabilities.document_formatting then
+  --   vim.cmd([[
+  --   augroup LspFormatting
+  --       autocmd! * <buffer>
+  --       autocmd BufWritePre * sleep 100m
+  --       autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
+  --   augroup END
+  --   ]])
+  -- end
 end
 
--- local lsp_installer = require("nvim-lsp-installer")
--- lsp_installer.on_server_ready(function(server)
---   local opts = {}
---   opts.on_attach = on_attach
-
---   server:setup(opts)
--- end)
-
-local lsp_installer_servers = require('nvim-lsp-installer.servers')
-
--- local function common_on_attach(client, bufnr)
---   -- Setup lspconfig.
---   local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
---   capabilities.textDocument.completion.completionItem.snippetSupport = true
-
---   -- autocmd BufWritePre * :!{bash -c "while ![ -e $1 ]; do echo $1; sleep 0.1s; done"} %:p
---   if client.resolved_capabilities.document_formatting then
---     vim.cmd([[
---     augroup LspFormatting
---         autocmd! * <buffer>
---         autocmd BufWritePre * sleep 200m
---         autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
---     augroup END
---     ]])
---   end
--- end
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 local disable_formatting = function(client, bufnr)
   client.resolved_capabilities.document_formatting = false
@@ -75,24 +52,15 @@ local enable_formatting = function(client, bufnr)
   on_attach(client, bufnr)
 end
 
-local servers = {
-  'sumneko_lua', -- (lua)
-  'volar', -- (vue)
-  'angularls',
-  'cssls',
-  'eslint', -- (javascript, typescript)
-  'graphql',
-  'hls', -- (haskell)
-  'html',
-  'remark_ls', -- (markdown)
-  'tsserver', -- (typescript, javascript)
-  'vimls',
-  'yamlls',
-}
-
 local server_settings = {
   tsserver = {
     format = { enable = false },
+    codeActionsOnSave = {
+      mode = "all",
+      source = {
+        organizeImports = true,
+      }
+    },
   },
   eslint = {
     enable = true,
@@ -119,36 +87,20 @@ local server_settings = {
   }
 }
 
--- Loop through the servers listed above.
-for _, name in pairs(servers) do
+local lspconfig = require('lspconfig')
+local lsp_installer = require('nvim-lsp-installer')
+lsp_installer.setup()
+for _, server in ipairs(lsp_installer.get_installed_servers()) do
+  local opts = { on_attach = on_attach, capabilities = capabilities }
+  -- local opts = { on_attach = on_attach }
 
-  local available, server = lsp_installer_servers.get_server(name)
-
-  if available then
-    server:on_ready(function()
-      local opts = { on_attach = on_attach }
-
-      -- set server-specific settings
-      --
-      if server_settings[server.name] then
-        opts.settings = server_settings[server.name]
-      end
-
-      -- neovim's LSP client does not currently support dynamic capabilities registration, so we need to set
-      -- the resolved capabilities of the eslint server ourselves!
-      --
-      if server.name == "eslint" then opts.on_attach = enable_formatting end
-
-      -- Disable formatting for typescript, so that eslint can take over.
-      --
-      if server.name == 'tsserver' then opts.on_attach = disable_formatting end
-      if server.name == 'sumneko_lua' then opts.on_attach = disable_formatting end
-
-      server:setup(opts)
-    end)
-
-    -- Queue the server to be installed.
-    if not server:is_installed() then server:install() end
-
+  if server_settings[server.name] then
+    opts.settings = server_settings[server.name]
   end
+
+  if server.name == "eslint" then opts.on_attach = enable_formatting end
+  if server.name == 'tsserver' then opts.on_attach = disable_formatting end
+
+  lspconfig[server.name].setup(opts)
 end
+
