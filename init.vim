@@ -1,3 +1,6 @@
+" Vim settings
+set noswapfile
+
 " Word encording
 set encoding=utf-8
 set fileencoding=utf-8
@@ -10,8 +13,12 @@ set number
 set incsearch
 set background=dark
 set cursorline
-colorscheme codedark
+" colorscheme xcodewwdc
+set termguicolors
+let ayucolor="dark"
+colorscheme ayu
 set laststatus=2
+set updatetime=2000
 
 " Search
 set ignorecase
@@ -39,9 +46,10 @@ set smartindent
 nnoremap <C-p> gT
 nnoremap <C-n> gt
 nnoremap t1 :tabn 1<CR>
-nnoremap <C-[><C-[> :nohl<CR>
+nnoremap <Esc> <Cmd>nohl<CR>
 nnoremap v* *:vimgrep /<C-r>// **/*.{ts,tsx,vue}<CR>
-nnoremap <C-w>o :Fern . -reveal=% -drawer -toggle -width=40<CR>
+inoremap <C-c> <Cmd>echo "'<\C-[>' を使ってnormalに戻さないやつはカス"<CR> 
+vnoremap <C-c> <Cmd>echo "'<\C-[>' を使ってnormalに戻さないやつはカス"<CR> 
 
 " Keymap(coc)
 " nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -50,16 +58,11 @@ nnoremap <C-w>o :Fern . -reveal=% -drawer -toggle -width=40<CR>
 " nmap <silent> gi <Plug>(coc-implementation)
 " nmap <silent> gr <Plug>(coc-references)
 
-" Auto commands
-autocmd BufWritePost :call CocAction('eslint.executeAutofix')
 augroup HTML
   autocmd!
   autocmd Filetype vue inoremap <buffer> </ </<C-x><C-o>
   autocmd Filetype html inoremap <buffer> </ </<C-x><C-o>
 augroup END
-
-" Short cuts
-" command! Format :call CocAction('eslint.executeAutofix')
 
 " Coc
 autocmd FileType scss setl iskeyword+=@-@
@@ -73,13 +76,22 @@ Plug 'posva/vim-vue'
 Plug 'neovim/nvim-lspconfig'
 Plug 'williamboman/nvim-lsp-installer'
 
-Plug 'Shougo/ddc.vim'
 Plug 'vim-denops/denops.vim'
+Plug 'Shougo/ddc.vim'
+Plug 'Shougo/ddc-around'
 Plug 'LumaKernel/ddc-file'
 Plug 'Shougo/ddc-matcher_head'
 Plug 'Shougo/ddc-sorter_rank'
 Plug 'Shougo/ddc-converter_remove_overlap'
 Plug 'Shougo/ddc-nvim-lsp'
+Plug 'matsui54/denops-popup-preview.vim'
+Plug 'matsui54/denops-signature_help'
+Plug 'Shougo/pum.vim'
+Plug 'Shougo/deoppet.nvim', { 'do': ':UpdateRemotePlugins' }
+
+Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/vim-vsnip-integ'
+Plug 'rafamadriz/friendly-snippets'
 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
@@ -87,12 +99,14 @@ Plug 'itchyny/lightline.vim'
 Plug 'tpope/vim-fugitive' 
 
 Plug 'lambdalisue/fern.vim'
-Plug 'lambdalisue/nerdfont.vim'
-Plug 'lambdalisue/fern-renderer-nerdfont.vim'
 Plug 'lambdalisue/glyph-palette.vim'
 Plug 'lambdalisue/fern-git-status.vim'
 
 Plug 'airblade/vim-gitgutter'
+
+Plug 'petertriho/nvim-scrollbar'
+
+Plug 'weilbith/nvim-code-action-menu'
 
 call plug#end()
 

@@ -6,11 +6,12 @@
     \             [ 'readonly', 'relativepath' ] ]
     \ },
     \ 'component_function': {
-    \   'gitbranch': 'fugitive#head',
+    \   'gitbranch': 'FugitiveHead',
     \ },
     \  'separator': { 'left': "", 'right': "" },
     \  'subseparator' :{ 'left': '|', 'right': '|' }
     \ }
+
 
 " function! LightlineFilename()
 "   let root = fnamemodify(get(b:, 'gitbranch_path'), ':h:h')
