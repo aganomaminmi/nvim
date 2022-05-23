@@ -95,6 +95,10 @@ Plug 'rafamadriz/friendly-snippets'
 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+
+" depended by telescope
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 Plug 'itchyny/lightline.vim'
 Plug 'tpope/vim-fugitive' 
 
@@ -107,7 +111,17 @@ Plug 'airblade/vim-gitgutter'
 Plug 'petertriho/nvim-scrollbar'
 
 Plug 'weilbith/nvim-code-action-menu'
+Plug 'arthurxavierx/vim-caser'
+Plug 'tpope/vim-surround'
+Plug 'yuttie/comfortable-motion.vim'
 
 call plug#end()
 
 so ~/.config/nvim/config/import.vim
+
+" autocmd WinNew * :Fern . -reveal=% -drawer -width=40
+augroup FernStart
+  autocmd!
+  autocmd TabNew * ++nested Fern . -reveal=% -toggle -stay -drawer -width=40
+  autocmd VimEnter * ++nested Fern . -reveal=% -toggle -drawer -width=40
+augroup END

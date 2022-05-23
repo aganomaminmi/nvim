@@ -10,3 +10,5 @@ vim.cmd([[
   augroup END
 ]])
 vim.api.nvim_set_keymap('n', 'gr', '<Plug>(fern-action-grep)', opts)
+-- vim.cmd('autocmd BufCreate Fern . -reveal=% -drawer -toggle -width=40')
+vim.cmd('autocmd BufCreate echo "created"')
