@@ -1,71 +1,9 @@
-" Vim settings
-set noswapfile
-
-" Word encording
-set encoding=utf-8
-set fileencoding=utf-8
-set fileencodings=ucs-boms,utf-8,euc-jp,cp932
-set fileformats=unix,dos,mac
-set ambiwidth=double
-
-" Display
-set number
-set incsearch
-set background=dark
-set cursorline
-" colorscheme xcodewwdc
-set termguicolors
-let ayucolor="dark"
-colorscheme ayu
-set laststatus=2
-set updatetime=2000
-
-" Search
-set ignorecase
-set smartcase
-set wildignore+=*/node_modules/**,/node_modules/**,*/dist/**,*/.nuxt/**,yarn.lock,package-lock.json,**/coverage/**
-autocmd QuickfixCmdPost make,grep,grepadd,vimgrep copen
-
 " Filer
 filetype plugin on
 let g:netrw_winsize = 35
 let g:netrw_browse_split = 3
 let g:netrw_banner=0
 let g:netrw_localmovecmd="mv"
-
-" Normal
-set clipboard=unnamed
-
-" Insert
-set expandtab
-set tabstop=2
-set shiftwidth=2
-set smartindent
-
-" Keymap
-nnoremap <C-p> gT
-nnoremap <C-n> gt
-nnoremap t1 :tabn 1<CR>
-nnoremap <Esc> <Cmd>nohl<CR>
-nnoremap v* *:vimgrep /<C-r>// **/*.{ts,tsx,vue}<CR>
-inoremap <C-c> <Cmd>echo "'<\C-[>' を使ってnormalに戻さないやつはカス"<CR> 
-vnoremap <C-c> <Cmd>echo "'<\C-[>' を使ってnormalに戻さないやつはカス"<CR> 
-
-" Keymap(coc)
-" nnoremap <silent> K :call <SID>show_documentation()<CR>
-" nmap <silent> gd <Plug>(coc-definition)
-" nmap <silent> gy <Plug>(coc-type-definition)
-" nmap <silent> gi <Plug>(coc-implementation)
-" nmap <silent> gr <Plug>(coc-references)
-
-augroup HTML
-  autocmd!
-  autocmd Filetype vue inoremap <buffer> </ </<C-x><C-o>
-  autocmd Filetype html inoremap <buffer> </ </<C-x><C-o>
-augroup END
-
-" Coc
-autocmd FileType scss setl iskeyword+=@-@
 
 " VimPlug
 call plug#begin('~/.vim/plugged')
@@ -105,6 +43,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'lambdalisue/fern.vim'
 Plug 'lambdalisue/glyph-palette.vim'
 Plug 'lambdalisue/fern-git-status.vim'
+Plug 'yuki-yano/fern-preview.vim'
 
 Plug 'airblade/vim-gitgutter'
 
@@ -118,10 +57,7 @@ Plug 'yuttie/comfortable-motion.vim'
 call plug#end()
 
 so ~/.config/nvim/config/import.vim
+so ~/.config/nvim/autocmds.lua
+so ~/.config/nvim/variables.lua
+so ~/.config/nvim/mapping.lua
 
-" autocmd WinNew * :Fern . -reveal=% -drawer -width=40
-augroup FernStart
-  autocmd!
-  autocmd TabNew * ++nested Fern . -reveal=% -toggle -stay -drawer -width=40
-  autocmd VimEnter * ++nested Fern . -reveal=% -toggle -drawer -width=40
-augroup END
