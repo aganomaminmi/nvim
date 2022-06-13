@@ -13,8 +13,8 @@ vim.api.nvim_set_keymap('n', 'gr', '<Plug>(fern-action-grep)', opts)
 
 vim.cmd([[
   function! s:fern_preview() abort
-    nnoremap <silent> <buffer> p     <Plug>(fern-action-preview:toggle)
-    nnoremap <silent> <buffer> <C-p> <Plug>(fern-action-preview:auto:toggle)
+    nnoremap <silent> <buffer> p <Plug>(fern-action-preview:toggle)
+    nnoremap <silent> <buffer> <Space>p <Plug>(fern-action-preview:auto:toggle)
     nnoremap <silent> <buffer> <C-f> <Plug>(fern-action-preview:scroll:down:half)
     nnoremap <silent> <buffer> <C-b> <Plug>(fern-action-preview:scroll:up:half)
   endfunction

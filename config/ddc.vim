@@ -32,7 +32,7 @@ inoremap <expr> <C-n> pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>
 inoremap <C-p> <Cmd>call pum#map#select_relative(-1)<CR>
 inoremap <C-y> <Cmd>call pum#map#confirm()<CR>
 inoremap <expr> <CR> pum#visible() ? '<Cmd>call pum#map#confirm()<CR>' : '<CR>'
-inoremap <silent><expr> <C-[> pum#visible() ? '<Cmd>call pum#map#cancel()<CR>' : '<C-[>'
+inoremap <silent><expr> <C-[> pum#visible() ? '<Cmd>call pum#map#confirm()<CR>' : '<C-[>'
 
 inoremap <expr> <C-j> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-j>'
 snoremap <expr> <C-j> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-j>'

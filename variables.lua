@@ -36,7 +36,7 @@ vim.opt.smartindent = true
 vim.cmd([[
   let g:comfortable_motion_scroll_down_key = "j"
   let g:comfortable_motion_scroll_up_key = "k"
-  let g:comfortable_motion_interval = 1000.0/30
+  let g:comfortable_motion_interval = 1000.0/20
   let g:comfortable_motion_friction = 200.0
   let g:comfortable_motion_air_drag = 0.0
 ]])
