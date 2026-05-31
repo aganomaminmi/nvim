@@ -5,11 +5,12 @@ let g:netrw_browse_split = 3
 let g:netrw_banner=0
 let g:netrw_localmovecmd="mv"
 
+lang en_US.UTF-8
+
 " VimPlug
 " Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 " Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 " Plug 'junegunn/fzf.vim'
-" Plug 'yuttie/comfortable-motion.vim'
 call plug#begin('~/.vim/plugged')
 Plug 'cohama/lexima.vim'
 Plug 'tpope/vim-commentary'
@@ -22,6 +23,10 @@ Plug 'neovim/nvim-lspconfig'
 
 Plug 'vim-denops/denops.vim'
 Plug 'vim-denops/denops-helloworld.vim'
+
+
+" smooth scroll
+" Plug 'yuttie/comfortable-motion.vim'
 
 " ddc
 " Plug 'Shougo/ddc.vim'
@@ -55,8 +60,11 @@ Plug 'hrsh7th/nvim-cmp'
 " depended by telescope
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.4' }
-" Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+" Plug 'nvim-treesitter/nvim-treesitter'
+
+" markdown viewer (in-buffer render, glow.nvim 後継)
+Plug 'MeanderingProgrammer/render-markdown.nvim'
 
 Plug 'itchyny/lightline.vim'
 Plug 'tpope/vim-fugitive' 
@@ -90,13 +98,22 @@ Plug 'github/copilot.vim'
 
 Plug 'tidalcycles/vim-tidal'
 
+" add this line to your .vimrc
+Plug 'ksudate/prev-md.vim'
+
 call plug#end()
+
+lua <<EOF
+require('render-markdown').setup({
+  pipe_table = { cell = 'trimmed' },
+})
+EOF
 
 let g:copilot_node_command="~/.nodenv/shims/node"
 let b:copilot_enabled = 1
 inoremap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
 " let g:copilot_no_tab_map = v:true
-let g:denops#deno = '/Users/kouha/.deno/bin/deno'
+let g:denops#deno = '/Users/aganomaminmi/.deno/bin/deno'
 
 so ~/.config/nvim/config/import.vim
 so ~/.config/nvim/autocmds.lua

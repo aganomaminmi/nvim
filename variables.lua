@@ -3,7 +3,7 @@
 vim.opt.swapfile = false
 
 -- Word encording
-vim.opt.encoding = 'UTF-8'
+vim.opt.encoding = 'utf-8'
 vim.opt.fileencodings = 'ucs-bom,utf-8,iso-2022-jp,cp932,euc-jp,default,latin'
 vim.opt.fileformats = 'unix,dos,mac'
 -- vim.opt.ambiwidth = 'double'
@@ -40,6 +40,6 @@ vim.cmd('let g:goimports_simplify = 1')
 --   let g:comfortable_motion_scroll_down_key = "j"
 --   let g:comfortable_motion_scroll_up_key = "k"
 --   let g:comfortable_motion_interval = 1000.0/20
---   let g:comfortable_motion_friction = 200.0
+--   let g:comfortable_motion_friction = 100.0
 --   let g:comfortable_motion_air_drag = 0.0
 -- ]])

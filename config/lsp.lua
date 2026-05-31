@@ -88,9 +88,9 @@ local server_settings = {
     init_options = {
       enable = true,
       unstable = true,
-      config = "./deno.json"
+      config = "./deno.jsonc"
     }
-  }
+  },
 }
 
 local init_options = {
@@ -117,46 +117,53 @@ mason.setup({
 })
 
 local mason_lspconfig = require('mason-lspconfig')
-mason_lspconfig.setup_handlers({ function(server_name)
-  local opts = { on_attach = on_attach, capabilities = capabilities }
-  -- local opts = { on_attach = on_attach }
+mason_lspconfig.setup_handlers({ 
+  function(server_name)
+    local opts = { on_attach = on_attach, capabilities = capabilities }
+    -- local opts = { on_attach = on_attach }
 
-  if server_settings[server_name] then
-    opts.settings = server_settings[server_name]
+    if server_settings[server_name] then
+      opts.settings = server_settings[server_name]
+    end
+
+    if init_options[server_name] then
+      opts.init_options = init_options[server_name]
+    end
+
+    if server_name == "eslint" then 
+      vim.cmd('autocmd BufWritePre <buffer> EslintFixAll')
+      opts.on_attach = enable_formatting
+    end
+
+    local deno_root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc")
+    local buf_name = vim.api.nvim_buf_get_name(0)
+    local current_buf = vim.api.nvim_get_current_buf()
+    local is_deno_repo = deno_root_dir(buf_name, current_buf) ~= nil
+
+    local node_root_dir = lspconfig.util.root_pattern("package.json")
+    local is_node_repo = node_root_dir(vim.api.nvim_buf_get_name(0)) ~= nil
+
+    -- if server_name == 'tsserver' then opts.on_attach = disable_formatting end
+
+    if server_name == 'denols' then
+      opts.root_dir = lspconfig.util.root_pattern('deno.jsonc')
+      opts.init_options = {
+        enable = true,
+        unstable = true,
+        config = "./deno.jsonc"
+      }
+
+    elseif server_name == 'tsserver' then
+      if is_deno_repo then
+        return
+      end
+      opts.root_dir = lspconfig.util.root_pattern('package.json')
+
+    end
+
+    lspconfig[server_name].setup(opts)
+    -- end
+
   end
-
-  if init_options[server_name] then
-    opts.init_options = init_options[server_name]
-  end
-
-  if server_name == "eslint" then 
-    vim.cmd('autocmd BufWritePre <buffer> EslintFixAll')
-    opts.on_attach = enable_formatting
-  end
-
-  -- local node_root_dir = lspconfig.util.root_pattern("package.json")
-  -- local deno_root_dir = lspconfig.util.root_pattern("deno.json")
-  -- local is_node_repo = node_root_dir(vim.api.nvim_buf_get_name(0)) ~= nil
-  -- local is_deno_repo = node_root_dir(vim.api.nvim_buf_get_name(0)) ~= nil
-
-  -- if server_name == 'tsserver' then opts.on_attach = disable_formatting end
-
-	-- if server_name == 'denols' then
-  --   opts.root_dir = lspconfig.util.root_pattern('deno.json')
-  --   opts.init_options = {
-  --     enable = true,
-  --     unstable = true,
-  --     config = "./deno.json"
-  --   }
-		-- lspconfig['denols'].setup(opts)
-	-- elseif server_name == 'tsserver' then
-  --   if not(is_deno_repo) then
-  --     opts.root_dir = lspconfig.util.root_pattern('package.json')
-  --     lspconfig['tsserver'].setup(opts)
-  --   end
-	-- else
-  lspconfig[server_name].setup(opts)
-  -- end
-
-end })
+})
 

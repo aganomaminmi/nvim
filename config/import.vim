@@ -11,4 +11,5 @@ so ~/.config/nvim/config/copilot.lua
 so ~/.config/nvim/config/tidal.vim
 " so ~/.config/nvim/config/fzf.lua
 so ~/.config/nvim/config/cmp.lua
+so ~/.config/nvim/config/treesitter.lua
 
