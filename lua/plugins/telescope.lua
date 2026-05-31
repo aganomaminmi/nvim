@@ -1,6 +1,6 @@
 return {
   "nvim-telescope/telescope.nvim",
-  tag = "0.1.4",
+  -- tag = "0.1.4" は nvim-treesitter main の ft_to_lang 廃止と非互換のため HEAD を使う
   cmd = "Telescope",
   dependencies = { "nvim-lua/plenary.nvim" },
   keys = {
