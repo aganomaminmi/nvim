@@ -4,7 +4,7 @@ return {
     lazy = false,
     init = function()
       vim.g.lightline = {
-        colorscheme = "solarized",
+        colorscheme = "molokai",
         active = {
           left = {
             { "mode", "paste" },
@@ -53,27 +53,8 @@ return {
       vim.keymap.set("", "gh", "<cmd>GitGutterLineHighlightsToggle<CR>", opts)
       vim.keymap.set("", "gp", "<cmd>GitGutterPreviewHunk<CR>", opts)
       vim.keymap.set("", "gf", "<cmd>GitGutterDiffOrig<CR>", opts)
-
-      vim.cmd([[
-        highlight GitGutterAdd ctermfg=green
-        highlight GitGutterChange ctermfg=blue
-        highlight GitGutterDelete ctermfg=red
-
-        highlight GitGutterAddLine ctermbg=green
-        highlight GitGutterChangeLine ctermbg=blue
-        highlight GitGutterDeleteLine ctermbg=red
-
-        highlight GitGutterAddLineNr ctermbg=green
-        highlight GitGutterChangeLineNr ctermbg=blue
-        highlight GitGutterDeleteLineNr ctermbg=red
-
-        highlight diffAdd ctermbg=green
-        highlight diffChange ctermbg=blue
-        highlight diffRemove ctermbg=red
-        highlight diffAdd ctermfg=black
-        highlight diffChange ctermfg=yellow
-        highlight diffRemove ctermfg=yellow
-      ]])
+      -- 色は ayu.vim の GitGutter*/Diff* 定義に任せる
+      -- (旧 cterm 指定は termguicolors 下では無効だったため削除)
     end,
   },
 }

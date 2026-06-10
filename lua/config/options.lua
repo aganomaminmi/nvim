@@ -17,8 +17,11 @@ vim.opt.incsearch = true
 vim.opt.background = "dark"
 vim.opt.cursorline = true
 vim.opt.termguicolors = true
-vim.g.ayucolor = "light"
-vim.cmd("colorscheme ayu")
+vim.cmd("colorscheme molokai")
+-- molokai は treesitter 以前のテーマで @variable 未定義のため、放置すると
+-- Neovim 組み込みデフォルトの薄グレーにフォールバックして見づらい。
+-- monokai 流儀どおり変数は地の白 (#F8F8F2) にする。
+vim.api.nvim_set_hl(0, "@variable", { fg = "#F8F8F2" })
 vim.opt.laststatus = 2
 vim.opt.updatetime = 2000
 

@@ -25,6 +25,6 @@ require("config.autocmds")
 
 -- plugins (lua/plugins/*.lua を自動で集める)
 require("lazy").setup("plugins", {
-  install = { colorscheme = { "ayu" } },
+  install = { colorscheme = { "molokai" } },
   change_detection = { notify = false },
 })
