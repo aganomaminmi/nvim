@@ -46,6 +46,28 @@ return {
   },
 
   {
+    -- バッファ内描画 (render-markdown) では折り返せない広いテーブル等を
+    -- ブラウザで確認するための preview。<leader>m でトグル。
+    "iamcco/markdown-preview.nvim",
+    ft = { "markdown" },
+    build = function()
+      vim.fn["mkdp#util#install"]()
+    end,
+    init = function()
+      vim.g.mkdp_auto_close = 0 -- バッファ移動で勝手に閉じない
+      vim.g.mkdp_theme = "dark"
+    end,
+    keys = {
+      {
+        "<leader>m",
+        "<cmd>MarkdownPreviewToggle<cr>",
+        ft = "markdown",
+        desc = "Markdown Preview Toggle",
+      },
+    },
+  },
+
+  {
     "airblade/vim-gitgutter",
     event = "BufReadPre",
     config = function()

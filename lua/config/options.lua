@@ -1,3 +1,7 @@
+-- leader はプラグイン (lazy keys) ロード前に確定させる必要があるため最初に設定
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
 vim.cmd("filetype plugin on")
 vim.cmd("lang en_US.UTF-8")
 

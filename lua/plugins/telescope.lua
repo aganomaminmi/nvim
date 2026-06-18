@@ -4,11 +4,11 @@ return {
   cmd = "Telescope",
   dependencies = { "nvim-lua/plenary.nvim" },
   keys = {
-    { "ff", "<cmd>Telescope find_files<CR>" },
-    { "fw", "<cmd>Telescope live_grep<CR>" },
-    { "fb", "<cmd>Telescope buffers<CR>" },
-    { "fh", "<cmd>Telescope help_tags<CR>" },
-    { "fg", "<cmd>Telescope git_files<CR>" },
+    { "<leader>ff", "<cmd>Telescope find_files<CR>", desc = "Find files" },
+    { "<leader>fw", "<cmd>Telescope live_grep<CR>", desc = "Live grep" },
+    { "<leader>fb", "<cmd>Telescope buffers<CR>", desc = "Buffers" },
+    { "<leader>fh", "<cmd>Telescope help_tags<CR>", desc = "Help tags" },
+    { "<leader>fg", "<cmd>Telescope git_files<CR>", desc = "Git files" },
   },
   config = function()
     local actions = require("telescope.actions")
