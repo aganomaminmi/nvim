@@ -22,6 +22,7 @@ vim.opt.rtp:prepend(lazypath)
 require("config.options")
 require("config.keymaps")
 require("config.autocmds")
+require("config.mermaid")
 
 -- plugins (lua/plugins/*.lua を自動で集める)
 require("lazy").setup("plugins", {
