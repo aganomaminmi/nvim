@@ -76,7 +76,7 @@ local function render()
         [[      if(nw<base.w/200||nw>base.w*200)return;var c=toUser(e.clientX,e.clientY);]],
         [[      vb.x=c.x-(c.x-vb.x)/f;vb.y=c.y-(c.y-vb.y)/f;vb.w/=f;vb.h/=f;set();}]],
         [[    else{var o=toUser(0,0),d=toUser(e.deltaX,e.deltaY);]],
-        [[      vb.x-=(d.x-o.x);vb.y-=(d.y-o.y);set();}},{passive:false});]],
+        [[      vb.x+=(d.x-o.x);vb.y+=(d.y-o.y);set();}},{passive:false});]],
         [[  var drag=false,lx=0,ly=0;]],
         [[  vp.addEventListener('pointerdown',function(e){drag=true;lx=e.clientX;ly=e.clientY;]],
         [[    vp.classList.add('drag');vp.setPointerCapture(e.pointerId);});]],
