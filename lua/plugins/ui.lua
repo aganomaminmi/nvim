@@ -41,8 +41,40 @@ return {
     "MeanderingProgrammer/render-markdown.nvim",
     ft = { "markdown" },
     opts = {
-      pipe_table = { cell = "trimmed" },
+      pipe_table = { enabled = false },
     },
+  },
+
+  {
+    "ice345/markdown-table-wrap.nvim",
+    ft = { "markdown" },
+    config = function()
+      require("markdown-table-wrap").setup()
+
+      local table_mode = "wrap" -- "wrap" or "original"
+
+      vim.keymap.set("n", "<leader>t", function()
+        local ok, rm = pcall(require, "render-markdown")
+        if not ok then
+          vim.notify("render-markdown.nvim がロードされていません", vim.log.levels.WARN)
+          return
+        end
+
+        if table_mode == "wrap" then
+          -- 編集モード: markdown-table-wrap をオフにし、render-markdown のテーブル表示を有効化
+          vim.cmd("MarkdownTableDisableAutoPreview")
+          rm.setup({ pipe_table = { enabled = true } })
+          table_mode = "original"
+          vim.notify("Table mode: Original (render-markdown)", vim.log.levels.INFO)
+        else
+          -- 閲覧モード: render-markdown のテーブル表示をオフにし、markdown-table-wrap を有効化
+          rm.setup({ pipe_table = { enabled = false } })
+          vim.cmd("MarkdownTableEnableAutoPreview")
+          table_mode = "wrap"
+          vim.notify("Table mode: Wrapped (markdown-table-wrap)", vim.log.levels.INFO)
+        end
+      end, { desc = "Toggle Markdown Table View Mode (Wrap / Original)" })
+    end,
   },
 
   {
@@ -56,6 +88,11 @@ return {
     init = function()
       vim.g.mkdp_auto_close = 0 -- バッファ移動で勝手に閉じない
       vim.g.mkdp_theme = "dark"
+      vim.g.mkdp_preview_options = {
+        mkit = {
+          html = true,
+        },
+      }
     end,
     keys = {
       {
