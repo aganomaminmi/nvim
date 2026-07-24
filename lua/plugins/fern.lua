@@ -1,6 +1,7 @@
 return {
   {
     "lambdalisue/fern.vim",
+    enabled = false, -- oil.nvim 試用中 (plugins/oil.lua)。戻すときはこの行を消す
     lazy = false,
     dependencies = {
       "lambdalisue/glyph-palette.vim",
