@@ -20,12 +20,18 @@ vim.opt.number = true
 vim.opt.incsearch = true
 vim.opt.background = "dark"
 vim.opt.cursorline = true
+vim.opt.cursorcolumn = true
 vim.opt.termguicolors = true
 vim.cmd("colorscheme molokai")
 -- molokai は treesitter 以前のテーマで @variable 未定義のため、放置すると
 -- Neovim 組み込みデフォルトの薄グレーにフォールバックして見づらい。
 -- monokai 流儀どおり変数は地の白 (#F8F8F2) にする。
 vim.api.nvim_set_hl(0, "@variable", { fg = "#F8F8F2" })
+-- molokai の CursorLine/CursorColumn (#293739) は背景 (#1B1D1E) との差が
+-- 小さく視認しづらいため、一段明るくして交点 (カーソル位置) を追いやすくする
+vim.api.nvim_set_hl(0, "CursorLine", { bg = "#3D4E5A" })   -- 横線: 青系グレー
+vim.api.nvim_set_hl(0, "CursorColumn", { bg = "#5D4E7A" }) -- 縦線: 紫系グレー
+vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "#FD971F", bold = true })
 vim.opt.laststatus = 2
 vim.opt.updatetime = 2000
 
