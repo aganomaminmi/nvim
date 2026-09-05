@@ -22,6 +22,25 @@ return {
   },
 
   {
+    -- インデントガイド。treesitter でカーソル位置のスコープ (ネスト) だけ
+    -- 色を変えて強調する。アニメーションなしの静的表示。
+    "lukas-reineke/indent-blankline.nvim",
+    main = "ibl",
+    event = { "BufReadPost", "BufNewFile" },
+    config = function()
+      vim.api.nvim_set_hl(0, "IblIndent", { fg = "#3B3A32" })
+      vim.api.nvim_set_hl(0, "IblScope", { fg = "#66D9EF" })
+      require("ibl").setup({
+        indent = { char = "▏" },
+        scope = {
+          show_start = false, -- スコープ先頭行への下線は出さない
+          show_end = false,
+        },
+      })
+    end,
+  },
+
+  {
     "petertriho/nvim-scrollbar",
     event = "BufReadPost",
     opts = {
